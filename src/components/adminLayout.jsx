@@ -3,9 +3,10 @@ import "../styles/admin.css";
 
 const AdminLayout = () => {
   return (
-    <div className="admin-layout">
+    <div className="admin-wrapper">
+      {/* Sidebar */}
       <div className="admin-sidebar">
-        <div className="admin-logo">🔥 Admin</div>
+        <div className="admin-logo">🔥 Flame Admin</div>
 
         <NavLink to="/admin" end className="admin-link">
           Dashboard
@@ -19,11 +20,20 @@ const AdminLayout = () => {
           Orders
         </NavLink>
 
-        <button className="btn-fill">Logout</button>
+        <button className="admin-logout-btn mt-auto">
+          Logout
+        </button>
       </div>
 
-      <div className="admin-content">
-        <Outlet />
+      {/* Content Area */}
+      <div className="admin-main">
+        <div className="admin-topbar">
+          <h4>Admin Panel</h4>
+        </div>
+
+        <div className="admin-content">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

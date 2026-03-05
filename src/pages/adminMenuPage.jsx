@@ -12,8 +12,6 @@ const AdminMenuPage = () => {
   const [img, setImg] = useState("");
   const [editingId, setEditingId] = useState(null);
 
-  /* ================= FETCH ITEMS ================= */
-
   useEffect(() => {
     fetchItems();
   }, [categoryTitle]);
@@ -29,8 +27,6 @@ const AdminMenuPage = () => {
     }
   };
 
-  /* ================= ADD / UPDATE ================= */
-
   const handleSubmit = async () => {
     if (!name || !price) return alert("Name and price required");
 
@@ -42,18 +38,12 @@ const AdminMenuPage = () => {
       };
 
       if (editingId) {
-        // UPDATE
-     await axios.put(
-  `http://localhost:3000/api/menu/${editingId}`,
-  { name, price, desc, img },
-  {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
-    }
-  }
-);
+        await axios.put(
+          `http://localhost:3000/api/menu/${editingId}`,
+          { name, price, desc, img },
+          config
+        );
       } else {
-        // ADD
         await axios.post(
           "http://localhost:3000/api/menu/add-item",
           {
@@ -61,7 +51,7 @@ const AdminMenuPage = () => {
             price,
             desc,
             img,
-            categoryTitle,
+            categoryTitle
           },
           config
         );
@@ -74,11 +64,8 @@ const AdminMenuPage = () => {
     }
   };
 
-  /* ================= DELETE ================= */
-
   const handleDelete = async (id) => {
-     console.log("DELETE ROUTE HIT");
-    if (!window.confirm("Are you sure you want to delete this item?")) return;
+    if (!window.confirm("Delete this item?")) return;
 
     try {
       await axios.delete(
@@ -96,14 +83,13 @@ const AdminMenuPage = () => {
     }
   };
 
-  /* ================= EDIT ================= */
-
   const startEdit = (item) => {
     setEditingId(item._id);
     setName(item.name);
     setPrice(item.price);
     setDesc(item.desc);
     setImg(item.img);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const resetForm = () => {
@@ -115,96 +101,112 @@ const AdminMenuPage = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>{decodeURIComponent(categoryTitle)}</h2>
+    <div className="admin-content-wrapper">
+      <h2 className="admin-page-title">
+        {decodeURIComponent(categoryTitle)} Items
+      </h2>
 
       {/* ================= FORM ================= */}
-      <div className="card p-3 mb-4">
+      <div className="admin-form-card">
         <h5>{editingId ? "Edit Item" : "Add New Item"}</h5>
 
-        <input
-          className="form-control mb-2"
-          placeholder="Item Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div className="row">
+          <div className="col-md-6">
+            <input
+              className="form-control admin-input"
+              placeholder="Item Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
 
-        <input
-          className="form-control mb-2"
-          type="number"
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
+          <div className="col-md-6">
+            <input
+              type="number"
+              className="form-control admin-input"
+              placeholder="Price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
 
-        <input
-          className="form-control mb-2"
-          placeholder="Image URL"
-          value={img}
-          onChange={(e) => setImg(e.target.value)}
-        />
+          <div className="col-12 mt-3">
+            <input
+              className="form-control admin-input"
+              placeholder="Image URL"
+              value={img}
+              onChange={(e) => setImg(e.target.value)}
+            />
+          </div>
 
-        <textarea
-          className="form-control mb-2"
-          placeholder="Description"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-        />
+          <div className="col-12 mt-3">
+            <textarea
+              className="form-control admin-input"
+              placeholder="Description"
+              rows="3"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+            />
+          </div>
 
-        <button className="btn btn-primary me-2" onClick={handleSubmit}>
-          {editingId ? "Update Item" : "Add Item"}
-        </button>
+          <div className="col-12 mt-3">
+            <button
+              className="btn btn-danger me-2"
+              onClick={handleSubmit}
+            >
+              {editingId ? "Update Item" : "Add Item"}
+            </button>
 
-        {editingId && (
-          <button className="btn btn-secondary" onClick={resetForm}>
-            Cancel
-          </button>
-        )}
+            {editingId && (
+              <button
+                className="btn btn-secondary"
+                onClick={resetForm}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* ================= TABLE ================= */}
+      {/* ================= ITEMS GRID ================= */}
+      <div className="admin-menu-grid">
+        {items.length === 0 ? (
+          <p className="mt-4">No items found.</p>
+        ) : (
+          items.map((item) => (
+            <div className="admin-menu-card" key={item._id}>
+              <div className="admin-menu-img">
+                <img src={item.img} alt={item.name} />
+              </div>
 
-      {items.length === 0 ? (
-        <p>No items found</p>
-      ) : (
-        <table className="table table-bordered table-striped">
-          <thead className="table-dark">
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th style={{ width: "120px" }}>Edit</th>
-              <th style={{ width: "120px" }}>Delete</th>
-            </tr>
-          </thead>
+              <div className="admin-menu-body">
+                <h5>{item.name}</h5>
+                <p className="admin-menu-price">₹{item.price}</p>
+                <p className="admin-menu-desc">
+                  {item.desc}
+                </p>
 
-          <tbody>
-            {items.map((item) => (
-              <tr key={item._id}>
-                <td>{item.name}</td>
-                <td>₹{item.price}</td>
-
-                <td>
+                <div className="admin-menu-actions">
                   <button
-                    className="btn btn-warning btn-sm w-100"
+                    className="btn btn-warning btn-sm"
                     onClick={() => startEdit(item)}
                   >
                     Edit
                   </button>
-                </td>
 
-                <td>
                   <button
-                    className="btn btn-danger btn-sm w-100"
-                    onClick={() => handleDelete(item._id)}  // ✅ FIX HERE
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(item._id)}
                   >
                     Delete
                   </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };
