@@ -1,0 +1,105 @@
+/* ===== Contact Page ===== */
+
+.contact-page {
+  background: url('../assets/burger-contact-img.png') no-repeat center center/cover;
+  min-height: 100vh;
+  padding: 80px 0;
+  color: var(--white);
+  position: relative;
+  text-align: center;
+}
+
+/* Dark overlay */
+.contact-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(10, 10, 10, 0.75);
+  z-index: 0;
+}
+
+.contact-page .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Title ===== */
+
+.contact-title {
+  font-family: 'Oswald';
+  font-size: 3.5rem;
+  color: var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.contact-title:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Form ===== */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Input styling */
+.custom-input {
+  padding: 14px;
+  border: none !important;
+  border-radius: 6px;
+  background: rgba(26, 26, 26, 0.85) !important;
+  color: white !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* FIXED PLACEHOLDER */
+.custom-input::placeholder {
+  color: #ccc !important;
+  opacity: 1;
+}
+
+/* Remove bootstrap focus glow */
+.custom-input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Hover effect */
+.custom-input:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.contact-form textarea {
+  height: 140px;
+  resize: none;
+}
+
+/* Button */
+.contact-btn {
+  padding: 14px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.3s ease;
+}
+
+.contact-btn:hover {
+  background: white;
+  color: black;
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 600px) {
+  .contact-title {
+    font-size: 2.5rem;
+  }
+}

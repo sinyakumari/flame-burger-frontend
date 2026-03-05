@@ -1,0 +1,121 @@
+/* ================= HOME MENU PREVIEW ================= */
+
+.home-menu-section {
+  background-color: var(--dark-bg);
+  padding: 60px 0; /* container handles side spacing now */
+  text-align: center;
+}
+
+.home-menu-section h2 {
+  font-family: 'Oswald';
+  font-size: 3.5rem;
+  color: var(--white);
+  margin-bottom: 60px;
+}
+
+/* ================= CARD ================= */
+
+.home-menu-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #333;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  transition: transform 0.35s ease,
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+}
+
+.home-menu-card:hover {
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  border-color: var(--primary);
+}
+
+/* ================= IMAGE ================= */
+
+.home-menu-img-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-menu-img-box img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.home-menu-card:hover img {
+  transform: scale(1.12);
+}
+
+/* ================= PRICE TAG ================= */
+
+.home-price-tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--primary);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  font-family: 'Oswald';
+}
+
+/* ================= DETAILS ================= */
+
+.home-menu-info {
+  padding: 20px;
+   flex: 1;
+}
+
+.home-menu-info h3 {
+  font-family: 'Oswald';
+  font-size: 1.4rem;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.home-menu-info p {
+  color: #bbb;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+/* ================= BUTTON ================= */
+
+.home-add-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-family: 'Oswald';
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.home-add-btn:hover {
+  background: white;
+  color: black;
+  transform: scale(1.08);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 600px) {
+  .home-menu-section h2 {
+    font-size: 2.5rem;
+  }
+
+ 
+}
+

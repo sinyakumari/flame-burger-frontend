@@ -1,0 +1,112 @@
+/* --- BOOKING PAGE STYLES --- */
+
+.booking-page {
+  position: relative;
+  min-height: calc(100vh - 80px); /* Subtracts Navbar height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('../assets/BookingPage-bg.jpg') center/cover no-repeat;
+  padding: 40px 20px;
+}
+
+.booking-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75); /* Darkens the background image */
+  z-index: 1;
+}
+
+.booking-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 550px;
+}
+
+.booking-card {
+  background: #111; /* Slightly lighter than pure black */
+  padding: 50px 40px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  text-align: center;
+}
+
+.oswald-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.booking-subtitle {
+  color: #aaa;
+  margin-bottom: 35px;
+  font-size: 0.95rem;
+}
+
+/* FORM ELEMENTS */
+.booking-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.booking-form input, 
+.booking-form select {
+  width: 100%;
+  padding: 14px;
+  background: #000;
+  border: 1px solid #333;
+  color: #fff;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.3s;
+}
+
+.booking-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.booking-submit {
+  width: 100%;
+  margin-top: 20px;
+  padding: 18px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 500px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .booking-card {
+    padding: 30px 20px;
+  }
+}

@@ -1,0 +1,93 @@
+/* ===== OUR STORY SECTION ===== */
+
+.ourstory-section {
+  background: #000;
+  background-image: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #000 70%);
+  padding: 120px 0;
+  overflow: hidden;
+}
+
+/* ===== TEXT SIDE ===== */
+
+.ourstory-text {
+  position: relative;
+  padding-right: 30px;
+}
+
+.ourstory-text h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 5rem;
+  line-height: 0.9;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-style: italic;
+  text-shadow: 4px 4px #e63946;
+  margin-bottom: 30px;
+}
+
+.ourstory-text p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  color: #fff;
+  background: #e63946;
+  padding: 30px;
+  box-shadow: 15px 15px 0px #1a1a1a;
+  line-height: 1.6;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ===== IMAGE SIDE ===== */
+
+.ourstory-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.ourstory-image::before {
+  content: '';
+  position: absolute;
+  width: 110%;
+  height: 80%;
+  background: #1a1a1a;
+  transform: rotate(-5deg);
+  z-index: 0;
+}
+
+.ourstory-image img {
+  position: relative;
+  z-index: 1;
+  border: 10px solid #fff;
+  transform: rotate(3deg);
+  filter: sepia(30%) contrast(120%) brightness(85%);
+  transition: 0.4s ease;
+  max-width: 100%;
+}
+
+.ourstory-image img:hover {
+  transform: rotate(0deg) scale(1.05);
+  filter: sepia(0%) contrast(130%) brightness(100%);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 992px) {
+  .ourstory-text {
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .ourstory-text h2 {
+    font-size: 3.5rem;
+  }
+
+  .ourstory-text p {
+    margin-top: 20px;
+  }
+
+  .ourstory-image {
+    margin-top: 40px;
+  }
+}

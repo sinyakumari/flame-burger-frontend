@@ -1,0 +1,139 @@
+/* ================= MASTER CUSTOMIZER MODAL ================= */
+
+/* The dark background overlay */
+.master-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Darker backdrop for focus */
+  backdrop-filter: blur(8px); /* Modern blur effect */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Ensure it stays above everything */
+  padding: 20px;
+}
+
+/* The actual customization box */
+.master-modal-content {
+  background: #111;
+  border: 2px solid var(--primary); /* Uses your red flame color */
+  border-radius: 15px;
+  width: 100%;
+  max-width: 450px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 0 30px rgba(255, 77, 77, 0.2); /* Soft red glow */
+  color: var(--white);
+}
+
+.master-modal-content h3 {
+  font-family: 'Oswald';
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: var(--primary);
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+/* Toppings List Styling */
+.extras-grid {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.extra-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1a1a;
+  padding: 12px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.extra-item:hover {
+  background: #222;
+  border-color: #444;
+}
+
+/* Custom Checkbox Color */
+.extra-item input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+}
+
+.extra-item label {
+  cursor: pointer;
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.extra-price {
+  color: var(--primary);
+  font-weight: 700;
+  font-family: 'Oswald';
+}
+
+/* Footer Buttons */
+.modal-footer {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.cancel-btn {
+  flex: 1;
+  background: transparent;
+  color: #888;
+  border: 1px solid #444;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  color: white;
+  border-color: white;
+}
+
+.confirm-btn {
+  flex: 2;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: 'Oswald';
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.confirm-btn:hover {
+  background: #ff6666;
+  transform: translateY(-2px);
+}
+
+/* Responsive Customizer */
+@media (max-width: 480px) {
+  .master-modal-content {
+    padding: 20px;
+  }
+  
+  .master-modal-content h3 {
+    font-size: 1.4rem;
+  }
+}

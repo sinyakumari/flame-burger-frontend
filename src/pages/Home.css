@@ -1,0 +1,14 @@
+.hero {
+  position: relative; height: 95vh; display: flex; align-items: center; justify-content: center;
+  background: url('https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?q=80&w=2071') center/cover no-repeat;
+}
+.hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%); z-index: 1; }
+.hero-content { position: relative; z-index: 10; text-align: center; animation: fadeInUp 1s ease-out forwards; }
+.hero-text-box { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); padding: 60px 50px; border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.15); }
+.main-title { font-family: 'Oswald'; font-size: clamp(3rem, 10vw, 7.5rem); line-height: 0.85; margin-bottom: 25px; }
+
+/* Home Menu Grid */
+.menu-section { padding: 100px 10%; text-align: center; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+.menu-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
+.menu-card:hover { transform: translateY(-10px); border-color: var(--primary); }

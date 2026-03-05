@@ -1,0 +1,85 @@
+/* ================= ADMIN LAYOUT ================= */
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: #0f0f0f;
+}
+
+/* ================= ADMIN SIDEBAR ================= */
+
+.admin-sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: #1a1a1a;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-logo {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.admin-link {
+  color: white;
+  text-decoration: none;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.admin-link:hover {
+  background: rgba(230, 57, 70, 0.2);
+}
+
+.admin-link.active {
+  background: #e63946;
+}
+
+.admin-sidebar button {
+  margin-top: auto;
+}
+
+/* ================= ADMIN CONTENT ================= */
+
+.admin-content {
+  flex: 1;
+  padding: 50px;
+  background: #f4f4f4;
+}
+
+/* ================= ADMIN CARDS ================= */
+
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: 0.3s ease;
+}
+
+.admin-card:hover {
+  transform: translateY(-6px);
+}
+
+.admin-card h3 {
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.admin-card h2 {
+  font-size: 28px;
+  margin-top: 10px;
+}
