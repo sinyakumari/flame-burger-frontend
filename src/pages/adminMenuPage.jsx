@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AdminMenuPage = () => {
+  console.log("ADMIN MENU PAGE RENDERED - V2");
   const { categoryTitle } = useParams();
   const navigate = useNavigate();
 
@@ -11,6 +12,7 @@ const AdminMenuPage = () => {
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
   const [img, setImg] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [viewItem, setViewItem] = useState(null);
   const [search, setSearch] = useState("");
@@ -35,22 +37,36 @@ const AdminMenuPage = () => {
     if (!name || !price) return alert("Name and price required");
 
     try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("desc", desc);
+
+      // File upload takes priority over URL
+      if (imageFile) {
+        formData.append("imageFile", imageFile);
+      } else if (img) {
+        formData.append("imageUrl", img);
+      }
+
       const config = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data"
         }
       };
 
       if (editingId) {
         await axios.put(
           `http://localhost:3000/api/menu/${editingId}`,
-          { name, price, desc, img },
+          formData,
           config
         );
       } else {
+        formData.append("categoryTitle", categoryTitle);
         await axios.post(
           "http://localhost:3000/api/menu/add-item",
-          { name, price, desc, img, categoryTitle },
+          formData,
           config
         );
       }
@@ -94,6 +110,7 @@ const AdminMenuPage = () => {
     setPrice(item.price);
     setDesc(item.desc);
     setImg(item.img);
+    setImageFile(null);
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -104,6 +121,7 @@ const AdminMenuPage = () => {
     setPrice("");
     setDesc("");
     setImg("");
+    setImageFile(null);
   };
 
   const filteredItems = items.filter((item) =>
@@ -190,13 +208,23 @@ const AdminMenuPage = () => {
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
-            <div className="col-12">
-              <label className="text-muted small mb-2 d-block">Image URL</label>
+            <div className="col-md-6">
+              <label className="text-white small mb-2 d-block">Image URL</label>
               <input
                 className="form-control admin-input"
                 placeholder="https://..."
                 value={img}
                 onChange={(e) => setImg(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="text-white small mb-2 d-block">Upload Image (optional)</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="form-control admin-input"
+                style={{ backgroundColor: '#fff', color: '#000', border: '2px solid #ff5c00' }}
+                onChange={(e) => setImageFile(e.target.files[0] || null)}
               />
             </div>
             <div className="col-12">
@@ -251,7 +279,10 @@ const AdminMenuPage = () => {
           filteredItems.map((item) => (
             <div className="menu-card" key={item._id}>
               <div className="card-img-box">
-                <img src={item.img} alt={item.name} />
+                <img 
+                  src={item.img && item.img.startsWith("/assets/") ? `http://localhost:3000${item.img}` : item.img} 
+                  alt={item.name} 
+                />
                 <div className="badge-overlay">
                   {decodeURIComponent(categoryTitle)}
                 </div>
