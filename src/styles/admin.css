@@ -162,7 +162,6 @@ body {
 
 /* ================= NEW MENU PAGE (KEPT FIGMA STYLE) ================= */
 
-<<<<<<< HEAD
 .category-card {
   background: #1c1c1c;
   border-radius: 20px;
@@ -359,11 +358,6 @@ body {
   background: #ff4d4d !important;
 }
 
-.btn-add-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
-}
-
 
 
 /* ================= ADMIN MENU PAGE (USABILITY RESTORED) ================= */
@@ -470,7 +464,8 @@ body {
 .menu-action-stack {
   display: flex;
   flex-direction: column;
-=======
+}
+
 .category-header-legacy {
   margin-bottom: 20px;
   display: flex;
@@ -486,25 +481,6 @@ body {
 
 .header-title p {
   color: var(--text-muted);
-}
-
-.btn-add-item {
-  background: var(--accent-orange);
-  color: #fff;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 14px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: 0.3s;
-  box-shadow: 0 4px 15px rgba(255, 92, 0, 0.3);
-}
-
-.btn-add-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 92, 0, 0.5);
 }
 
 /* STAT CARDS */
@@ -602,13 +578,11 @@ body {
   font-weight: 600;
   display: flex;
   align-items: center;
->>>>>>> dev
   gap: 10px;
-  width: 100%;
-  margin-top: auto;
+  transition: 0.3s;
 }
 
-<<<<<<< HEAD
+
 .admin-action-btn {
   display: flex;
   align-items: center;
@@ -671,12 +645,6 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255, 46, 46, 0.6);
 }
-
-.admin-action-btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
 
 @media (max-width: 768px) {
   .admin-content-wrapper {
@@ -813,9 +781,12 @@ body {
   font-size: 16px;
   margin-bottom: 30px;
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* Truncate text if too long to avoid scroll */
-  line-clamp: 5; /* Standard property for compatibility */
-=======
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .btn-filter.active {
   background: rgba(255, 92, 0, 0.1);
   border-color: var(--accent-orange);
@@ -924,18 +895,18 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 4;
   line-clamp: 4;
->>>>>>> dev
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-<<<<<<< HEAD
+
 .drawer-actions-fixed {
   padding: 30px 40px;
   background: #000;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
-=======
+}
+
 .hover-actions {
   display: flex;
   gap: 12px;
@@ -1334,5 +1305,4 @@ body {
   color: var(--accent-orange);
   font-size: 18px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
->>>>>>> dev
 }

@@ -3,25 +3,15 @@
 ================================= */
 
 .admin-orders-container {
-<<<<<<< HEAD
   padding: 10px 20px 40px;
-  background-color: transparent; /* inherits from admin-wrapper */
+  background-color: transparent;
   min-height: 100vh;
   font-family: 'Inter', 'Poppins', sans-serif;
   color: #fff;
-=======
-    padding: 10px 20px 40px;
-    background-color: transparent;
-    /* inherits from admin-wrapper */
-    min-height: 100vh;
-    font-family: 'Inter', 'Poppins', sans-serif;
-    color: #fff;
->>>>>>> dev
 }
 
 /* Header & Controls */
 .orders-header {
-<<<<<<< HEAD
   margin-bottom: 30px;
 }
 
@@ -59,63 +49,17 @@
 .summary-pill:hover:not(.active) {
   background-color: #222;
   color: #fff;
-=======
-    margin-bottom: 30px;
-}
-
-.orders-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 20px;
-}
-
-.orders-summary-pills {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.summary-pill {
-    padding: 8px 16px;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    color: #aaa;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.summary-pill.active {
-    background-color: rgba(230, 57, 70, 0.1);
-    border-color: #e63946;
-    color: #e63946;
-}
-
-.summary-pill:hover:not(.active) {
-    background-color: #222;
-    color: #fff;
->>>>>>> dev
 }
 
 /* CSS Grid Layout */
 .orders-grid {
-<<<<<<< HEAD
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
-=======
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
->>>>>>> dev
 }
 
 /* Individual Order Card */
 .order-ui-card {
-<<<<<<< HEAD
   background-color: #1c1c1c;
   border: 1px solid #2a2a2a;
   border-radius: 16px;
@@ -129,26 +73,10 @@
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   border-color: #444;
-=======
-    background-color: #1c1c1c;
-    border: 1px solid #2a2a2a;
-    border-radius: 16px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.order-ui-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    border-color: #444;
->>>>>>> dev
 }
 
 /* Card Header */
 .order-card-header {
-<<<<<<< HEAD
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -182,52 +110,16 @@
   font-size: 16px;
   color: #fff;
   box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
-=======
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px dashed #333;
-}
-
-.order-card-title {
-    margin: 0 0 5px 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-}
-
-.order-card-time {
-    margin: 0;
-    font-size: 13px;
-    color: #888;
-}
-
-.order-user-avatar {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #e63946, #b01524);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
->>>>>>> dev
 }
 
 /* Items List */
 .order-items-scroll {
-<<<<<<< HEAD
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-bottom: 25px;
-  max-height: 140px; /* Specifically constrained to about 2 items */
+  max-height: 140px;
   overflow-y: auto;
   padding-right: 5px;
   scrollbar-width: thin;
@@ -315,107 +207,10 @@
   font-size: 13px;
   color: #fff;
   font-weight: 600;
-=======
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 25px;
-    max-height: 140px;
-    /* Specifically constrained to about 2 items */
-    overflow-y: auto;
-    padding-right: 5px;
-    scrollbar-width: thin;
-    scrollbar-color: #444 #222;
-}
-
-.order-items-scroll::-webkit-scrollbar {
-    width: 6px;
-}
-
-.order-items-scroll::-webkit-scrollbar-track {
-    background: #2a2a2a;
-    border-radius: 10px;
-}
-
-.order-items-scroll::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 10px;
-}
-
-.order-food-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.food-item-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #2a2a2a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.food-item-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover !important;
-}
-
-.placeholder-img {
-    font-size: 24px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #2a2a2a;
-}
-
-.food-item-details {
-    flex: 1;
-}
-
-.food-item-details h6 {
-    margin: 0 0 4px 0;
-    font-size: 15px;
-    font-weight: 500;
-    color: #fff;
-}
-
-.food-customization {
-    margin: 0 0 6px 0;
-    font-size: 12px;
-    color: #aaa;
-}
-
-.food-price-qty {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.food-price {
-    font-weight: 600;
-    font-size: 14px;
-    color: #e63946;
-}
-
-.food-qty {
-    font-size: 13px;
-    color: #fff;
-    font-weight: 600;
->>>>>>> dev
 }
 
 /* Card Footer */
 .order-card-footer {
-<<<<<<< HEAD
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -439,36 +234,10 @@
   font-weight: 700;
   margin: 0;
   color: #fff;
-=======
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    border-top: 1px dashed #333;
-}
-
-.order-total-block {
-    display: flex;
-    flex-direction: column;
-}
-
-.total-label {
-    font-size: 12px;
-    color: #888;
-    margin: 0 0 2px 0;
-}
-
-.total-amount {
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0;
-    color: #fff;
->>>>>>> dev
 }
 
 /* Action Buttons */
 .order-actions-buttons {
-<<<<<<< HEAD
   display: flex;
   gap: 10px;
   align-items: center;
@@ -513,57 +282,10 @@
 .btn-complete:hover {
   background-color: #28a745;
   color: #fff;
-=======
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.btn-action {
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-reject {
-    width: 38px;
-    height: 38px;
-    border: 1px solid #444;
-    color: #888;
-    font-size: 14px;
-}
-
-.btn-reject:hover {
-    background-color: rgba(255, 60, 60, 0.1);
-    border-color: #ff3c3c;
-    color: #ff3c3c;
-}
-
-.btn-complete {
-    padding: 0 16px;
-    height: 38px;
-    background-color: rgba(40, 167, 69, 0.1);
-    border: 1px solid rgba(40, 167, 69, 0.3);
-    color: #28a745;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-}
-
-.btn-complete:hover {
-    background-color: #28a745;
-    color: #fff;
->>>>>>> dev
 }
 
 /* Status Labels (When not pending) */
 .status-label {
-<<<<<<< HEAD
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 13px;
@@ -592,33 +314,3 @@
   border-radius: 16px;
   border: 1px solid #2a2a2a;
 }
-=======
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.is-completed {
-    background-color: rgba(40, 167, 69, 0.1);
-    color: #28a745;
-}
-
-.is-cancelled {
-    background-color: rgba(255, 60, 60, 0.1);
-    color: #ff3c3c;
-}
-
-.no-orders-msg {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 60px;
-    color: #666;
-    font-size: 18px;
-    background: #1c1c1c;
-    border-radius: 16px;
-    border: 1px solid #2a2a2a;
-}
->>>>>>> dev

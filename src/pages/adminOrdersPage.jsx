@@ -173,8 +173,4 @@ const AdminOrdersPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default AdminOrdersPage;
-=======
-export default AdminOrdersPage;
->>>>>>> dev

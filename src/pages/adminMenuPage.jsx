@@ -12,12 +12,9 @@ const AdminMenuPage = () => {
   const [desc, setDesc] = useState("");
   const [img, setImg] = useState("");
   const [editingId, setEditingId] = useState(null);
-<<<<<<< HEAD
-  const [viewItem, setViewItem] = useState(null); // ✅ NEW: For Quick View
-=======
+  const [viewItem, setViewItem] = useState(null);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
->>>>>>> dev
 
   useEffect(() => {
     fetchItems();
@@ -80,7 +77,6 @@ const AdminMenuPage = () => {
 
   const toggleAvailability = async (item) => {
     try {
-      // Assuming existing backend has isActive field
       await axios.put(
         `http://localhost:3000/api/menu/${item._id}`,
         { ...item, isActive: !item.isActive },
@@ -115,74 +111,6 @@ const AdminMenuPage = () => {
   );
 
   return (
-<<<<<<< HEAD
-    <div className="admin-content-wrapper p-4">      {/* ================= CATEGORY HEADER ================= */}
-      <div className="admin-item-header mb-5">
-        <button 
-          className="btn-back-square me-4"
-          onClick={() => window.history.back()}
-        >
-          <i className="bi bi-arrow-left"></i>
-        </button>
-        <div>
-          <h1 className="admin-page-title m-0">
-            {decodeURIComponent(categoryTitle)}
-          </h1>
-          <span className="admin-item-count">
-            {items.length} Total Items
-          </span>
-        </div>
-      </div>
-
-      {/* ================= GLASSMORPHIC FORM ================= */}
-      <div className="admin-form-card mb-5">
-        <h5 className="mb-4 text-white d-flex align-items-center">
-          <i className={`bi ${editingId ? 'bi-pencil-stars' : 'bi-plus-circle'} me-3 text-danger fs-4`}></i>
-          {editingId ? "Edit Menu Item" : "Create New Item"}
-        </h5>
-
-        <div className="row g-3">
-          <div className="col-md-6">
-            <label className="text-muted small mb-1">Item Name</label>
-            <input
-              className="form-control admin-input"
-              placeholder="e.g. Classic Flame Burger"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-
-          <div className="col-md-6">
-            <label className="text-muted small mb-1">Price (₹)</label>
-            <input
-              type="number"
-              className="form-control admin-input"
-              placeholder="0.00"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
-
-          <div className="col-12 mt-3">
-            <label className="text-muted small mb-1">Image URL</label>
-            <input
-              className="form-control admin-input"
-              placeholder="https://images.unsplash.com/..."
-              value={img}
-              onChange={(e) => setImg(e.target.value)}
-            />
-          </div>
-
-          <div className="col-12 mt-3">
-            <label className="text-muted small mb-1">Description</label>
-            <textarea
-              className="form-control admin-input"
-              placeholder="Describe the taste, ingredients, etc."
-              rows="3"
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-            />
-=======
     <div className="admin-content">
       {/* HEADER SECTION */}
       <header className="menu-header">
@@ -220,7 +148,6 @@ const AdminMenuPage = () => {
           <div className="stat-card-top">
             <span>Out of Stock</span>
             <div className="dot red"></div>
->>>>>>> dev
           </div>
           <div className="stat-value">
             {items.filter(i => i.isActive === false).length}
@@ -237,23 +164,7 @@ const AdminMenuPage = () => {
         </div>
       </section>
 
-<<<<<<< HEAD
-          <div className="col-12 mt-4">
-            <button
-              className="btn btn-danger btn-add-item me-3"
-              onClick={handleSubmit}
-            >
-              {editingId ? "Update Item" : "Create Item"}
-            </button>
-
-            {editingId && (
-              <button
-                className="btn btn-outline-secondary rounded-3 px-4"
-                onClick={resetForm}
-              >
-                Cancel
-=======
-      {/* ADD/EDIT FORM (INTEGRATED) */}
+      {/* ADD/EDIT FORM (TOGGLE) */}
       {showForm && (
         <div className="admin-form-card mb-5">
           <h5 className="mb-4 text-white">
@@ -301,72 +212,12 @@ const AdminMenuPage = () => {
             <div className="col-12">
               <button className="btn btn-add-item px-5" onClick={handleSubmit}>
                 {editingId ? "Save Changes" : "Confirm & Add Item"}
->>>>>>> dev
               </button>
             </div>
           </div>
         </div>
       )}
 
-<<<<<<< HEAD
-      {/* ================= ITEMS GRID (RESTORED USABILITY) ================= */}
-      <div className="row">
-        {items.length === 0 ? (
-          <div className="col-12 text-center py-5">
-            <p className="text-muted">No items found in this category.</p>
-          </div>
-        ) : (
-          items.map((item, index) => (
-            <div className="col-md-6 col-lg-4 mb-4" key={item._id}>
-              <div 
-                className="menu-item-card"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                
-                {/* Image Section */}
-                <div className="menu-card-img-wrapper">
-                  <img 
-                    src={item.img} 
-                    alt={item.name} 
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://via.placeholder.com/150?text=Food";
-                    }}
-                  />
-                </div>
-
-                {/* Details Section */}
-                <h5 className="menu-item-name">{item.name}</h5>
-                <p className="menu-item-info">
-                  {decodeURIComponent(categoryTitle)}
-                </p>
-                <p className="menu-item-price">₹{item.price}</p>
-
-                {/* Action Section - Labeled for Clarity */}
-                <div className="menu-action-stack">
-                  <div className="d-flex gap-2">
-                    <button
-                      className="admin-action-btn edit"
-                      onClick={() => startEdit(item)}
-                    >
-                      <i className="bi bi-pencil-square"></i> Edit
-                    </button>
-
-                    <button
-                      className="admin-action-btn delete"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      <i className="bi bi-trash3"></i> Delete
-                    </button>
-                  </div>
-
-                  <button
-                    className="admin-action-btn secondary"
-                    onClick={() => setViewItem(item)}
-                  >
-                    <i className="bi bi-eye"></i> View details
-                  </button>
-=======
       {/* FILTER ROW */}
       <section className="filter-row">
         <div className="filter-left">
@@ -405,7 +256,7 @@ const AdminMenuPage = () => {
                   {decodeURIComponent(categoryTitle)}
                 </div>
                 
-                {/* FIGMA HOVER OVERLAY (CIRCULAR REVEAL) */}
+                {/* HOVER OVERLAY (CIRCULAR REVEAL) */}
                 <div className="card-hover-overlay">
                   <p className="hover-desc">
                     {item.desc || "Experience the pure joy of our chef's special preparation using only the finest local ingredients for a truly unforgettable taste."}
@@ -453,7 +304,15 @@ const AdminMenuPage = () => {
                       </label>
                     </div>
                   </div>
->>>>>>> dev
+
+                  {/* Quick View Button */}
+                  <button
+                    className="admin-action-btn secondary"
+                    onClick={() => setViewItem(item)}
+                    style={{ marginTop: '8px' }}
+                  >
+                    <i className="bi bi-eye"></i> View Details
+                  </button>
                 </div>
               </div>
             </div>
@@ -461,7 +320,7 @@ const AdminMenuPage = () => {
         )}
       </div>
 
-      {/* ================= DETAIL SIDEBAR DRAWER (RIGHT) ================= */}
+      {/* DETAIL SIDEBAR DRAWER (RIGHT) */}
       {viewItem && (
         <div 
           className="admin-detail-drawer-overlay"
@@ -482,7 +341,7 @@ const AdminMenuPage = () => {
               </button>
             </div>
 
-            {/* Scrollable Body */}
+            {/* Body */}
             <div className="drawer-body">
               <div className="drawer-img-wrapper">
                 <img src={viewItem.img} alt={viewItem.name} />
