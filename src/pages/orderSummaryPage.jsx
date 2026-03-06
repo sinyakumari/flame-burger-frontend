@@ -17,6 +17,11 @@ const OrderSummaryPage = () => {
     payment: "cash",
   });
 
+  const [couponCode, setCouponCode] = useState("");
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState("");
+  const [couponError, setCouponError] = useState("");
+
   /* ===============================
      VERIFY ACCESS + FETCH CART
   =============================== */
@@ -65,6 +70,31 @@ const OrderSummaryPage = () => {
   };
 
   /* ===============================
+     APPLY COUPON
+  =============================== */
+  const handleApplyCoupon = async () => {
+    if (!couponCode) return;
+    try {
+      setLoading(true);
+      setCouponError("");
+      const response = await axios.post("http://localhost:3000/api/coupons/validate", {
+        code: couponCode,
+        cartTotal: totalPrice
+      });
+      setDiscountAmount(response.data.discountAmount);
+      setAppliedCoupon(response.data.couponCode);
+      alert("Coupon applied successfully!");
+    } catch (error) {
+      console.error("Coupon Error:", error.response?.data);
+      setCouponError(error.response?.data?.message || "Invalid coupon");
+      setDiscountAmount(0);
+      setAppliedCoupon("");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* ===============================
      PLACE ORDER
   =============================== */
   const handleOrder = async (e) => {
@@ -80,9 +110,14 @@ const OrderSummaryPage = () => {
 
       const token = localStorage.getItem("token");
 
+      const orderData = {
+        ...formData,
+        couponCode: appliedCoupon || undefined
+      };
+
       const response = await axios.post(
         "http://localhost:3000/api/orders/place",
-        formData,
+        orderData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -154,10 +189,52 @@ const OrderSummaryPage = () => {
             <span>$5.00</span>
           </div>
 
+          {discountAmount > 0 && (
+            <div className="price-row discount-row text-success">
+              <span>Discount ({appliedCoupon})</span>
+              <span>-${discountAmount.toFixed(2)}</span>
+            </div>
+          )}
+
           <div className="price-total">
             <span>Total</span>
-            <span>${(totalPrice + 5).toFixed(2)}</span>
+            <span>${(totalPrice + 5 - discountAmount).toFixed(2)}</span>
           </div>
+        </div>
+
+        {/* Coupon Input */}
+        <div className="coupon-section mb-4">
+          <div className="d-flex gap-2">
+            <input 
+              type="text" 
+              className="form-control" 
+              placeholder="Enter Coupon Code"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+              disabled={appliedCoupon}
+            />
+            <button 
+              type="button" 
+              className="btn btn-dark" 
+              onClick={handleApplyCoupon}
+              disabled={loading || !couponCode || appliedCoupon}
+            >
+              Apply
+            </button>
+          </div>
+          {couponError && <small className="text-danger mt-1 d-block">{couponError}</small>}
+          {appliedCoupon && (
+            <small className="text-success mt-1 d-block">
+              Code <b>{appliedCoupon}</b> applied! 
+              <span 
+                className="ms-2 text-decoration-underline" 
+                style={{cursor: 'pointer'}}
+                onClick={() => { setAppliedCoupon(""); setDiscountAmount(0); setCouponCode(""); }}
+              >
+                Remove
+              </span>
+            </small>
+          )}
         </div>
 
         <form onSubmit={handleOrder} className="checkout-form">

@@ -18,6 +18,8 @@ import AdminDashboard from "./pages/adminDashboard";
 import AdminCategoriesPage from "./pages/adminCategoriesPage"; // ✅ NEW
 import AdminMenuPage from "./pages/adminMenuPage";
 import AdminOrdersPage from "./pages/adminOrdersPage";
+import AdminCouponsPage from "./pages/adminCouponsPage";
+
 
 import { useTheme } from "./context/themeContext";
 import "./App.css";
@@ -55,6 +57,7 @@ function App() {
      <Route path="menu" element={<AdminCategoriesPage />} />
       <Route path="menu/:categoryTitle" element={<AdminMenuPage/>} />
         <Route path="orders" element={<AdminOrdersPage />} />
+        <Route path="coupons" element={<AdminCouponsPage />} />
       </Route>
 
       {/* ================= AUTH ================= */}
