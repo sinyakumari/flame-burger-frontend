@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useAuth } from "../context/authContext";
 import "../styles/admin.css";
 import {
   Chart as ChartJS,
@@ -24,13 +27,40 @@ ChartJS.register(
 );
 
 const AdminDashboard = () => {
+  const { token } = useAuth();
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/orders/admin/stats", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setStats(response.data);
+      } catch (err) {
+        console.error("Failed to fetch dashboard stats", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStats();
+  }, [token]);
+
+  if (loading || !stats) {
+    return <div className="container-fluid mt-4">Loading stats...</div>;
+  }
+
+  // Format dynamic data for charts
+  const revenueLabels = stats.weeklyRevenue.map(item => item._id ? item._id.split("-").slice(1).join("/") : "Unknown");
+  const revenueValues = stats.weeklyRevenue.map(item => item.total);
 
   const revenueData = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    labels: revenueLabels.length > 0 ? revenueLabels : ["No Data"],
     datasets: [
       {
         label: "Revenue ($)",
-        data: [400, 600, 800, 750, 900, 1200, 1500],
+        data: revenueValues.length > 0 ? revenueValues : [0],
         backgroundColor: "rgba(220, 53, 69, 0.6)",
       },
     ],
@@ -40,18 +70,26 @@ const AdminDashboard = () => {
     labels: ["Pending", "Completed", "Cancelled"],
     datasets: [
       {
-        data: [12, 40, 5],
+        data: stats.ordersData,
         backgroundColor: ["#ffc107", "#28a745", "#dc3545"],
       },
     ],
   };
 
+  const userGrowthLabels = stats.userGrowth.map(item => {
+    if (!item._id) return "Unknown";
+    const [year, month] = item._id.split("-");
+    const date = new Date(year, month - 1);
+    return date.toLocaleString('default', { month: 'short' }) + " '" + year.slice(2);
+  });
+  const userGrowthValues = stats.userGrowth.map(item => item.total);
+
   const usersData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+    labels: userGrowthLabels.length > 0 ? userGrowthLabels : ["No Data"],
     datasets: [
       {
         label: "New Users",
-        data: [10, 25, 40, 30, 55],
+        data: userGrowthValues.length > 0 ? userGrowthValues : [0],
         borderColor: "#0d6efd",
         backgroundColor: "rgba(13, 110, 253, 0.3)",
       },
@@ -68,28 +106,28 @@ const AdminDashboard = () => {
         <div className="col-md-3">
           <div className="card shadow-sm text-center p-3">
             <h6>Total Orders</h6>
-            <h3>124</h3>
+            <h3>{stats.totalOrders}</h3>
           </div>
         </div>
 
         <div className="col-md-3">
           <div className="card shadow-sm text-center p-3">
             <h6>Total Revenue</h6>
-            <h3>$2,430</h3>
+            <h3>${stats.totalRevenue.toFixed(2)}</h3>
           </div>
         </div>
 
         <div className="col-md-3">
           <div className="card shadow-sm text-center p-3">
             <h6>Total Users</h6>
-            <h3>89</h3>
+            <h3>{stats.totalUsers}</h3>
           </div>
         </div>
 
         <div className="col-md-3">
           <div className="card shadow-sm text-center p-3">
             <h6>Menu Items</h6>
-            <h3>36</h3>
+            <h3>{stats.totalMenuItems}</h3>
           </div>
         </div>
       </div>

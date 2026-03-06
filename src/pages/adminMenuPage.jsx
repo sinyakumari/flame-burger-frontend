@@ -11,6 +11,7 @@ const AdminMenuPage = () => {
   const [desc, setDesc] = useState("");
   const [img, setImg] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [viewItem, setViewItem] = useState(null); // ✅ NEW: For Quick View
 
   useEffect(() => {
     fetchItems();
@@ -101,65 +102,85 @@ const AdminMenuPage = () => {
   };
 
   return (
-    <div className="admin-content-wrapper">
-      <h2 className="admin-page-title">
-        {decodeURIComponent(categoryTitle)} Items
-      </h2>
+    <div className="admin-content-wrapper p-4">      {/* ================= CATEGORY HEADER ================= */}
+      <div className="admin-item-header mb-5">
+        <button 
+          className="btn-back-square me-4"
+          onClick={() => window.history.back()}
+        >
+          <i className="bi bi-arrow-left"></i>
+        </button>
+        <div>
+          <h1 className="admin-page-title m-0">
+            {decodeURIComponent(categoryTitle)}
+          </h1>
+          <span className="admin-item-count">
+            {items.length} Total Items
+          </span>
+        </div>
+      </div>
 
-      {/* ================= FORM ================= */}
-      <div className="admin-form-card">
-        <h5>{editingId ? "Edit Item" : "Add New Item"}</h5>
+      {/* ================= GLASSMORPHIC FORM ================= */}
+      <div className="admin-form-card mb-5">
+        <h5 className="mb-4 text-white d-flex align-items-center">
+          <i className={`bi ${editingId ? 'bi-pencil-stars' : 'bi-plus-circle'} me-3 text-danger fs-4`}></i>
+          {editingId ? "Edit Menu Item" : "Create New Item"}
+        </h5>
 
-        <div className="row">
+        <div className="row g-3">
           <div className="col-md-6">
+            <label className="text-muted small mb-1">Item Name</label>
             <input
               className="form-control admin-input"
-              placeholder="Item Name"
+              placeholder="e.g. Classic Flame Burger"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
 
           <div className="col-md-6">
+            <label className="text-muted small mb-1">Price (₹)</label>
             <input
               type="number"
               className="form-control admin-input"
-              placeholder="Price"
+              placeholder="0.00"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
 
           <div className="col-12 mt-3">
+            <label className="text-muted small mb-1">Image URL</label>
             <input
               className="form-control admin-input"
-              placeholder="Image URL"
+              placeholder="https://images.unsplash.com/..."
               value={img}
               onChange={(e) => setImg(e.target.value)}
             />
           </div>
 
           <div className="col-12 mt-3">
+            <label className="text-muted small mb-1">Description</label>
             <textarea
               className="form-control admin-input"
-              placeholder="Description"
+              placeholder="Describe the taste, ingredients, etc."
               rows="3"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
             />
           </div>
 
-          <div className="col-12 mt-3">
+          <div className="col-12 mt-4">
             <button
-              className="btn btn-danger me-2"
+              className="btn btn-danger btn-add-item me-3"
               onClick={handleSubmit}
             >
-              {editingId ? "Update Item" : "Add Item"}
+              {editingId ? "Update Item" : "Create Item"}
             </button>
 
             {editingId && (
               <button
-                className="btn btn-secondary"
+                className="btn btn-outline-secondary rounded-3 px-4"
                 onClick={resetForm}
               >
                 Cancel
@@ -169,37 +190,62 @@ const AdminMenuPage = () => {
         </div>
       </div>
 
-      {/* ================= ITEMS GRID ================= */}
-      <div className="admin-menu-grid">
+      {/* ================= ITEMS GRID (RESTORED USABILITY) ================= */}
+      <div className="row">
         {items.length === 0 ? (
-          <p className="mt-4">No items found.</p>
+          <div className="col-12 text-center py-5">
+            <p className="text-muted">No items found in this category.</p>
+          </div>
         ) : (
-          items.map((item) => (
-            <div className="admin-menu-card" key={item._id}>
-              <div className="admin-menu-img">
-                <img src={item.img} alt={item.name} />
-              </div>
+          items.map((item, index) => (
+            <div className="col-md-6 col-lg-4 mb-4" key={item._id}>
+              <div 
+                className="menu-item-card"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                
+                {/* Image Section */}
+                <div className="menu-card-img-wrapper">
+                  <img 
+                    src={item.img} 
+                    alt={item.name} 
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://via.placeholder.com/150?text=Food";
+                    }}
+                  />
+                </div>
 
-              <div className="admin-menu-body">
-                <h5>{item.name}</h5>
-                <p className="admin-menu-price">₹{item.price}</p>
-                <p className="admin-menu-desc">
-                  {item.desc}
+                {/* Details Section */}
+                <h5 className="menu-item-name">{item.name}</h5>
+                <p className="menu-item-info">
+                  {decodeURIComponent(categoryTitle)}
                 </p>
+                <p className="menu-item-price">₹{item.price}</p>
 
-                <div className="admin-menu-actions">
-                  <button
-                    className="btn btn-warning btn-sm"
-                    onClick={() => startEdit(item)}
-                  >
-                    Edit
-                  </button>
+                {/* Action Section - Labeled for Clarity */}
+                <div className="menu-action-stack">
+                  <div className="d-flex gap-2">
+                    <button
+                      className="admin-action-btn edit"
+                      onClick={() => startEdit(item)}
+                    >
+                      <i className="bi bi-pencil-square"></i> Edit
+                    </button>
+
+                    <button
+                      className="admin-action-btn delete"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      <i className="bi bi-trash3"></i> Delete
+                    </button>
+                  </div>
 
                   <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(item._id)}
+                    className="admin-action-btn secondary"
+                    onClick={() => setViewItem(item)}
                   >
-                    Delete
+                    <i className="bi bi-eye"></i> View details
                   </button>
                 </div>
               </div>
@@ -207,6 +253,67 @@ const AdminMenuPage = () => {
           ))
         )}
       </div>
+
+      {/* ================= DETAIL SIDEBAR DRAWER (RIGHT) ================= */}
+      {viewItem && (
+        <div 
+          className="admin-detail-drawer-overlay"
+          onClick={() => setViewItem(null)}
+        >
+          <div 
+            className="admin-detail-drawer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header with Close Icon */}
+            <div className="drawer-header">
+              <button 
+                className="drawer-close-btn"
+                onClick={() => setViewItem(null)}
+                title="Close sidebar"
+              >
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+
+            {/* Scrollable Body */}
+            <div className="drawer-body">
+              <div className="drawer-img-wrapper">
+                <img src={viewItem.img} alt={viewItem.name} />
+              </div>
+
+              <div className="drawer-meta">
+                <span className="drawer-category-badge">
+                  {decodeURIComponent(categoryTitle)}
+                </span>
+                <p className="drawer-price-tag">₹{viewItem.price}</p>
+              </div>
+
+              <h2 className="drawer-title">{viewItem.name}</h2>
+              
+              <div className="drawer-content-section">
+                <span className="drawer-section-label">Detailed Description</span>
+                <p className="drawer-description" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {viewItem.desc || "No special description provided for this item. It is prepared with our signature quality and fresh ingredients to ensure the best taste experience for our customers."}
+                </p>
+              </div>
+            </div>
+
+            {/* Fixed Bottom Actions */}
+            <div className="drawer-actions-fixed">
+              <button 
+                className="btn btn-danger w-100 py-3 fw-bold rounded-4 shadow-sm"
+                onClick={() => {
+                  setViewItem(null);
+                  startEdit(viewItem);
+                }}
+              >
+                <i className="bi bi-pencil-square me-2"></i>
+                Edit Item Details
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

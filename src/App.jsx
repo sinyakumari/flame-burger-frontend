@@ -17,6 +17,7 @@ import NotFoundPage from "./pages/notFoundPage";
 import AdminDashboard from "./pages/adminDashboard";
 import AdminCategoriesPage from "./pages/adminCategoriesPage"; // ✅ NEW
 import AdminMenuPage from "./pages/adminMenuPage";
+import AdminOrdersPage from "./pages/adminOrdersPage";
 
 import { useTheme } from "./context/themeContext";
 import "./App.css";
@@ -53,7 +54,7 @@ function App() {
         <Route index element={<AdminDashboard />} />
      <Route path="menu" element={<AdminCategoriesPage />} />
       <Route path="menu/:categoryTitle" element={<AdminMenuPage/>} />
-        <Route path="orders" element={<div>Orders Page</div>} />
+        <Route path="orders" element={<AdminOrdersPage />} />
       </Route>
 
       {/* ================= AUTH ================= */}

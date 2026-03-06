@@ -83,37 +83,56 @@ function AdminCategoriesPage() {
         ) : (
           categories.map((cat) => (
             <div key={cat._id} className="col-md-6 col-lg-4 mb-4">
-              <div className="category-card p-4">
-
-                <div className="d-flex justify-content-between align-items-center">
-                  <h5
-                    className="category-title"
-                    onClick={() => navigate(`/admin/menu/${cat.title}`)}
-                  >
-                    {cat.title}
-                  </h5>
-
-                  <span className={`badge ${cat.isActive ? "bg-success" : "bg-secondary"}`}>
+              <div className="category-card p-0">
+                
+                {/* Image Section - Reference Style */}
+                <div className="category-card-img-wrapper">
+                  {cat.image ? (
+                    <img 
+                      src={cat.image} 
+                      alt={cat.title} 
+                      className="category-img"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.classList.add('no-image');
+                      }}
+                    />
+                  ) : (
+                    <div className="no-image-placeholder">🍔</div>
+                  )}
+                  {/* Status Badge Over-image or Next to title */}
+                  <span className={`category-status-pill ${cat.isActive ? "active" : "hidden"}`}>
                     {cat.isActive ? "Active" : "Hidden"}
                   </span>
                 </div>
 
-                <div className="mt-4 d-flex justify-content-between">
-                  <button
-                    className="btn btn-outline-light btn-sm"
-                    onClick={() => navigate(`/admin/menu/${cat.title}`)}
-                  >
-                    View Items
-                  </button>
+                {/* Info Section */}
+                <div className="category-card-info">
+                  <div className="d-flex justify-content-between align-items-start mb-2">
+                    <h5 className="category-card-name">{cat.title}</h5>
+                    <button
+                      className="category-delete-icon"
+                      onClick={() => deleteCategory(cat._id)}
+                      title="Delete Category"
+                    >
+                      <i className="bi bi-trash3"></i>
+                    </button>
+                  </div>
+                  
+                  <p className="category-card-subtitle">
+                    Manage all menu items for {cat.title.toLowerCase()}
+                  </p>
 
-                  <button
-                    className="btn btn-outline-danger btn-sm"
-                    onClick={() => deleteCategory(cat._id)}
-                  >
-                    Delete
-                  </button>
+                  <div className="category-card-footer">
+                    <button
+                      className="btn-view-items"
+                      onClick={() => navigate(`/admin/menu/${cat.title}`)}
+                    >
+                      View Items <i className="bi bi-chevron-right ms-1"></i>
+                    </button>
+                  </div>
                 </div>
-
+                
               </div>
             </div>
           ))

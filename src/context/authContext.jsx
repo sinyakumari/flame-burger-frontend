@@ -3,9 +3,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-
   // 🔹 Decode JWT manually
   const decodeToken = (token) => {
     try {
@@ -16,6 +13,15 @@ export const AuthProvider = ({ children }) => {
       return null;
     }
   };
+
+  const getInitialToken = () => localStorage.getItem("token") || null;
+  const getInitialUser = () => {
+    const token = getInitialToken();
+    return token ? decodeToken(token) : null;
+  };
+
+  const [token, setToken] = useState(getInitialToken);
+  const [user, setUser] = useState(getInitialUser);
 
   // 🔹 Login
   const login = (tokenFromServer) => {
@@ -32,16 +38,6 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
   };
-
-  // 🔹 Auto login on refresh
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
-      const decoded = decodeToken(storedToken);
-      setUser(decoded);
-    }
-  }, []);
 
   return (
     <AuthContext.Provider
