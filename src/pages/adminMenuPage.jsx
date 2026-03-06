@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AdminMenuPage = () => {
   const { categoryTitle } = useParams();
+  const navigate = useNavigate();
 
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
@@ -11,6 +12,8 @@ const AdminMenuPage = () => {
   const [desc, setDesc] = useState("");
   const [img, setImg] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetchItems();
@@ -46,19 +49,14 @@ const AdminMenuPage = () => {
       } else {
         await axios.post(
           "http://localhost:3000/api/menu/add-item",
-          {
-            name,
-            price,
-            desc,
-            img,
-            categoryTitle
-          },
+          { name, price, desc, img, categoryTitle },
           config
         );
       }
 
       resetForm();
       fetchItems();
+      setShowForm(false);
     } catch (err) {
       console.log(err);
     }
@@ -66,17 +64,24 @@ const AdminMenuPage = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this item?")) return;
-
     try {
-      await axios.delete(
-        `http://localhost:3000/api/menu/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      );
+      await axios.delete(`http://localhost:3000/api/menu/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      fetchItems();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
+  const toggleAvailability = async (item) => {
+    try {
+      // Assuming existing backend has isActive field
+      await axios.put(
+        `http://localhost:3000/api/menu/${item._id}`,
+        { ...item, isActive: !item.isActive },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
       fetchItems();
     } catch (err) {
       console.log(err);
@@ -89,6 +94,7 @@ const AdminMenuPage = () => {
     setPrice(item.price);
     setDesc(item.desc);
     setImg(item.img);
+    setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -100,107 +106,204 @@ const AdminMenuPage = () => {
     setImg("");
   };
 
+  const filteredItems = items.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className="admin-content-wrapper">
-      <h2 className="admin-page-title">
-        {decodeURIComponent(categoryTitle)} Items
-      </h2>
+    <div className="admin-content">
+      {/* HEADER SECTION */}
+      <header className="menu-header">
+        <div className="header-title">
+          <h1>Menu Management</h1>
+          <p>Manage your restaurant menu items, pricing, and availability</p>
+        </div>
+        <button className="btn-add-item" onClick={() => setShowForm(!showForm)}>
+          <i className={`bi ${showForm ? "bi-dash-lg" : "bi-plus-lg"}`}></i>
+          {showForm ? "Cancel Adding" : "Add New Menu Item"}
+        </button>
+      </header>
 
-      {/* ================= FORM ================= */}
-      <div className="admin-form-card">
-        <h5>{editingId ? "Edit Item" : "Add New Item"}</h5>
-
-        <div className="row">
-          <div className="col-md-6">
-            <input
-              className="form-control admin-input"
-              placeholder="Item Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+      {/* STATS ROW */}
+      <section className="stats-row">
+        <div className="stat-card">
+          <div className="stat-card-top">
+            <span>Total Items</span>
+            <div className="dot blue"></div>
           </div>
-
-          <div className="col-md-6">
-            <input
-              type="number"
-              className="form-control admin-input"
-              placeholder="Price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
+          <div className="stat-value">{items.length}</div>
+          <p className="stat-subtext text-up">+3 this week</p>
+        </div>
+        <div className="stat-card">
+          <div className="stat-card-top">
+            <span>Available</span>
+            <div className="dot green"></div>
           </div>
-
-          <div className="col-12 mt-3">
-            <input
-              className="form-control admin-input"
-              placeholder="Image URL"
-              value={img}
-              onChange={(e) => setImg(e.target.value)}
-            />
+          <div className="stat-value">
+            {items.filter(i => i.isActive !== false).length}
           </div>
-
-          <div className="col-12 mt-3">
-            <textarea
-              className="form-control admin-input"
-              placeholder="Description"
-              rows="3"
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-            />
+          <p className="stat-subtext text-muted">87.5% active</p>
+        </div>
+        <div className="stat-card">
+          <div className="stat-card-top">
+            <span>Out of Stock</span>
+            <div className="dot red"></div>
           </div>
+          <div className="stat-value">
+            {items.filter(i => i.isActive === false).length}
+          </div>
+          <p className="stat-subtext text-warn">Needs attention</p>
+        </div>
+        <div className="stat-card">
+          <div className="stat-card-top">
+            <span>Categories</span>
+            <div className="dot orange"></div>
+          </div>
+          <div className="stat-value">8</div>
+          <p className="stat-subtext text-muted">All active</p>
+        </div>
+      </section>
 
-          <div className="col-12 mt-3">
-            <button
-              className="btn btn-danger me-2"
-              onClick={handleSubmit}
-            >
-              {editingId ? "Update Item" : "Add Item"}
-            </button>
-
-            {editingId && (
-              <button
-                className="btn btn-secondary"
-                onClick={resetForm}
-              >
-                Cancel
+      {/* ADD/EDIT FORM (INTEGRATED) */}
+      {showForm && (
+        <div className="admin-form-card mb-5">
+          <h5 className="mb-4 text-white">
+            {editingId ? "Update Existing Item" : "Create New Menu Entry"}
+          </h5>
+          <div className="row g-4">
+            <div className="col-md-6">
+              <label className="text-muted small mb-2 d-block">Item Name</label>
+              <input
+                className="form-control admin-input"
+                placeholder="e.g. Double Cheese Deluxe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="text-muted small mb-2 d-block">Price (₹)</label>
+              <input
+                type="number"
+                className="form-control admin-input"
+                placeholder="0.00"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+            <div className="col-12">
+              <label className="text-muted small mb-2 d-block">Image URL</label>
+              <input
+                className="form-control admin-input"
+                placeholder="https://..."
+                value={img}
+                onChange={(e) => setImg(e.target.value)}
+              />
+            </div>
+            <div className="col-12">
+              <label className="text-muted small mb-2 d-block">Description</label>
+              <textarea
+                className="form-control admin-input"
+                rows="3"
+                placeholder="What makes this item special?"
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+              />
+            </div>
+            <div className="col-12">
+              <button className="btn btn-add-item px-5" onClick={handleSubmit}>
+                {editingId ? "Save Changes" : "Confirm & Add Item"}
               </button>
-            )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* ================= ITEMS GRID ================= */}
-      <div className="admin-menu-grid">
-        {items.length === 0 ? (
-          <p className="mt-4">No items found.</p>
+      {/* FILTER ROW */}
+      <section className="filter-row">
+        <div className="filter-left">
+          <button className="btn-filter active" onClick={() => navigate("/admin/menu")}>
+            <i className="bi bi-arrow-left"></i>
+            Back to Categories
+          </button>
+          <button className="btn-filter">
+            <i className="bi bi-sliders"></i>
+            Filter Options
+          </button>
+        </div>
+
+        <div className="filter-right">
+          <label>Sort by:</label>
+          <select className="sort-select">
+            <option>Most Popular</option>
+            <option>Newest</option>
+            <option>Price: Low to High</option>
+          </select>
+        </div>
+      </section>
+
+      {/* ITEM GRID */}
+      <div className="menu-grid">
+        {filteredItems.length === 0 ? (
+          <div className="text-center py-5 col-12">
+            <p className="text-muted">No dishes found in {decodeURIComponent(categoryTitle)}.</p>
+          </div>
         ) : (
-          items.map((item) => (
-            <div className="admin-menu-card" key={item._id}>
-              <div className="admin-menu-img">
+          filteredItems.map((item) => (
+            <div className="menu-card" key={item._id}>
+              <div className="card-img-box">
                 <img src={item.img} alt={item.name} />
+                <div className="badge-overlay">
+                  {decodeURIComponent(categoryTitle)}
+                </div>
+                
+                {/* FIGMA HOVER OVERLAY (CIRCULAR REVEAL) */}
+                <div className="card-hover-overlay">
+                  <p className="hover-desc">
+                    {item.desc || "Experience the pure joy of our chef's special preparation using only the finest local ingredients for a truly unforgettable taste."}
+                  </p>
+                  
+                  <div className="hover-actions">
+                    <button 
+                      className="btn-edit-cat" 
+                      onClick={(e) => { e.stopPropagation(); startEdit(item); }}
+                    >
+                      <i className="bi bi-pencil-square"></i> Edit Item
+                    </button>
+                    <button 
+                      className="btn-delete-cat" 
+                      onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                    >
+                      <i className="bi bi-trash3"></i> Delete
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              <div className="admin-menu-body">
-                <h5>{item.name}</h5>
-                <p className="admin-menu-price">₹{item.price}</p>
-                <p className="admin-menu-desc">
-                  {item.desc}
-                </p>
+              <div className="card-info">
+                <h3>{item.name}</h3>
+                <div className="card-price">₹{item.price}</div>
 
-                <div className="admin-menu-actions">
-                  <button
-                    className="btn btn-warning btn-sm"
-                    onClick={() => startEdit(item)}
-                  >
-                    Edit
-                  </button>
+                <div className="card-footer">
+                  <div className="card-footer-actions">
+                    <div className="availability-wrap">
+                      <span>Availability</span>
+                      <div className={`status-pill ${item.isActive !== false ? "available" : "out"}`}>
+                        <i className="bi bi-circle-fill"></i>
+                        {item.isActive !== false ? "Available" : "Out of Stock"}
+                      </div>
+                    </div>
 
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    Delete
-                  </button>
+                    <div className="d-flex align-items-center">
+                      <label className="switch">
+                        <input 
+                          type="checkbox" 
+                          checked={item.isActive !== false} 
+                          onChange={() => toggleAvailability(item)}
+                        />
+                        <span className="slider"></span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

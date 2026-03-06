@@ -20,6 +20,10 @@ const AdminLayout = () => {
           Orders
         </NavLink>
 
+        <NavLink to="/admin/coupons" className="admin-link">
+          Coupons
+        </NavLink>
+
         <button className="admin-logout-btn mt-auto">
           Logout
         </button>
