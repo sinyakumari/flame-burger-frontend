@@ -303,21 +303,21 @@ export default function AdminCategoriesPage() {
 
       {/* STATS ROW */}
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px'}}>
-        <div style={{background: '#111', border: '1px solid #1f1f1f', padding: '20px', borderRadius: '16px'}}>
-          <div style={{fontSize: '13px', color: '#888', marginBottom: '8px'}}>Total Categories</div>
-          <div style={{fontSize: '28px', fontWeight: '700', color: '#fff'}}>{categories.length}</div>
+        <div style={{background: '#1e1e1e', border: '1px solid #282828', borderLeft: '3px solid #ff2e2e', padding: '20px', borderRadius: '16px', transition: 'box-shadow 0.2s'}}>
+          <div style={{fontSize: '11px', color: '#999', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '500'}}>Total Categories</div>
+          <div style={{fontSize: '30px', fontWeight: '800', color: '#e8e8e8', lineHeight: 1, letterSpacing: '-0.5px'}}>{categories.length}</div>
         </div>
-        <div style={{background: '#111', border: '1px solid #1f1f1f', padding: '20px', borderRadius: '16px'}}>
-          <div style={{fontSize: '13px', color: '#888', marginBottom: '8px'}}>Available</div>
-          <div style={{fontSize: '28px', fontWeight: '700', color: '#22c55e'}}>{activeCategories}</div>
+        <div style={{background: '#1e1e1e', border: '1px solid #282828', borderLeft: '3px solid #22c55e', padding: '20px', borderRadius: '16px', transition: 'box-shadow 0.2s'}}>
+          <div style={{fontSize: '11px', color: '#999', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '500'}}>Available</div>
+          <div style={{fontSize: '30px', fontWeight: '800', color: '#22c55e', lineHeight: 1, letterSpacing: '-0.5px'}}>{activeCategories}</div>
         </div>
-        <div style={{background: '#111', border: '1px solid #1f1f1f', padding: '20px', borderRadius: '16px'}}>
-          <div style={{fontSize: '13px', color: '#888', marginBottom: '8px'}}>Total Menu Items</div>
-          <div style={{fontSize: '28px', fontWeight: '700', color: '#fff'}}>{totalItems}</div>
+        <div style={{background: '#1e1e1e', border: '1px solid #282828', borderLeft: '3px solid #ff2e2e', padding: '20px', borderRadius: '16px', transition: 'box-shadow 0.2s'}}>
+          <div style={{fontSize: '11px', color: '#999', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '500'}}>Total Menu Items</div>
+          <div style={{fontSize: '30px', fontWeight: '800', color: '#e8e8e8', lineHeight: 1, letterSpacing: '-0.5px'}}>{totalItems}</div>
         </div>
-        <div style={{background: '#111', border: '1px solid #1f1f1f', padding: '20px', borderRadius: '16px'}}>
-          <div style={{fontSize: '13px', color: '#888', marginBottom: '8px'}}>Avg. Items/Category</div>
-          <div style={{fontSize: '28px', fontWeight: '700', color: '#ff2e2e'}}>{avgItems}</div>
+        <div style={{background: '#1e1e1e', border: '1px solid #282828', borderLeft: '3px solid #ff2e2e', padding: '20px', borderRadius: '16px', transition: 'box-shadow 0.2s'}}>
+          <div style={{fontSize: '11px', color: '#999', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '500'}}>Avg. Items/Category</div>
+          <div style={{fontSize: '30px', fontWeight: '800', color: '#ff2e2e', lineHeight: 1, letterSpacing: '-0.5px'}}>{avgItems}</div>
         </div>
       </div>
 
