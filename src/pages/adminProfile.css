@@ -1,0 +1,220 @@
+/* Admin Profile Page Styles */
+
+.ap-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.ap-card {
+    background: #121212;
+    border: 1px solid #1f1f1f;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.ap-header-banner {
+    height: 120px;
+    background: linear-gradient(135deg, #e63946, #8b0000);
+    position: relative;
+}
+
+.ap-profile-img-container {
+    position: absolute;
+    bottom: -50px;
+    left: 40px;
+    padding: 5px;
+    background: #121212;
+    border-radius: 50%;
+}
+
+.ap-profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #121212;
+    object-fit: cover;
+}
+
+.ap-body {
+    padding: 70px 40px 40px;
+}
+
+.ap-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.ap-name-role h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+}
+
+.ap-name-role p {
+    color: #e63946;
+    font-weight: 600;
+    margin: 5px 0 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.ap-header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.ap-edit-btn, .ap-pwd-btn {
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.ap-edit-btn {
+    background: #e63946;
+    color: #fff;
+}
+
+.ap-pwd-btn {
+    background: #282828;
+    color: #eee;
+    border: 1px solid #383838;
+}
+
+.ap-edit-btn:hover {
+    background: #ff4d5a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+}
+
+.ap-pwd-btn:hover {
+    background: #333;
+    color: #fff;
+    border-color: #555;
+    transform: translateY(-2px);
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #222;
+}
+
+.ap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.ap-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ap-label {
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.ap-value {
+    font-size: 16px;
+    color: #eee;
+    font-weight: 500;
+}
+
+/* Edit Form */
+.ap-form {
+    display: grid;
+    gap: 20px;
+}
+
+.ap-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ap-input {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.ap-input:focus {
+    border-color: #e63946;
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+}
+
+.ap-form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.ap-save-btn {
+    background: #e63946;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.ap-cancel-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.ap-cancel-btn:hover {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .ap-info-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .ap-profile-img-container {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .ap-body {
+        text-align: center;
+        padding-top: 80px;
+    }
+    
+    .ap-info-header {
+        align-items: center;
+    }
+}
