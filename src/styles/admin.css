@@ -22,7 +22,6 @@ body {
   background: #000;
   color: #fff;
 }
-
 /* ================= ADMIN LAYOUT ================= */
 
 .admin-wrapper {
@@ -37,7 +36,7 @@ body {
   width: 260px;
   background: #0f0f0f;
   border-right: 1px solid #1e1e1e;
-  padding: 30px 20px;
+  padding: 32px 22px;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -48,7 +47,7 @@ body {
   font-size: 24px;
   font-weight: 700;
   color: #e63946;
-  margin-bottom: 50px;
+  margin-bottom: 55px;
   text-align: center;
   letter-spacing: 1px;
 }
@@ -62,7 +61,7 @@ body {
   text-decoration: none;
   font-weight: 500;
   border-radius: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   transition: 0.3s;
 }
 
@@ -83,15 +82,9 @@ body {
 }
 
 @keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 5px rgba(255, 46, 46, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(255, 46, 46, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 14px rgba(230, 57, 70, 0.6);
-  }
+  0% { box-shadow: 0 0 5px rgba(255, 46, 46, 0.2); }
+  50% { box-shadow: 0 0 15px rgba(255, 46, 46, 0.4); }
+  100% { box-shadow: 0 0 14px rgba(230, 57, 70, 0.6); }
 }
 
 /* ================= LOGOUT ================= */
@@ -124,7 +117,7 @@ body {
 /* ================= TOPBAR ================= */
 
 .admin-topbar {
-  padding: 20px 35px;
+  padding: 22px 40px;
   border-bottom: 1px solid #1e1e1e;
   display: flex;
   justify-content: space-between;
@@ -145,7 +138,7 @@ body {
   background: #111;
   border: 1px solid #222;
   border-radius: 10px;
-  padding: 6px 10px;
+  padding: 8px 12px;
   margin-left: 20px;
 }
 
@@ -167,7 +160,7 @@ body {
 .profile-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .profile-btn img {
@@ -180,7 +173,7 @@ body {
 .profile-info {
   display: flex;
   flex-direction: column;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .profile-name {
@@ -196,7 +189,7 @@ body {
 /* ================= CONTENT ================= */
 
 .admin-content {
-  padding: 40px;
+  padding: 45px 50px;
 }
 
 /* ================= DASHBOARD TITLE ================= */
@@ -205,18 +198,19 @@ body {
   color: #e63946;
   font-weight: 700;
   text-shadow: 0 0 8px rgba(230, 57, 70, 0.4);
+  margin-bottom: 10px;
 }
 
 /* ================= RECENT ACTIVITY ================= */
 
 .activity-item {
   display: flex;
-  gap: 12px;
-  padding: 12px;
+  gap: 14px;
+  padding: 14px;
   border-radius: 10px;
   background: #111;
   border: 1px solid #1f1f1f;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   transition: 0.3s;
 }
 
@@ -250,22 +244,22 @@ body {
 .gradient-card {
   background: linear-gradient(135deg,#e63946,#8b0000);
   border-radius: 16px;
-  padding: 28px;
-  margin-top: 20px;
+  padding: 30px;
+  margin-top: 25px;
   box-shadow: 0 10px 30px rgba(230,57,70,0.35);
   text-align: center;
 }
 
 .gradient-card h4 {
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-weight: 700;
 }
 
 .gradient-card p {
   color: white;
   font-size: 13px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .gradient-card button {
