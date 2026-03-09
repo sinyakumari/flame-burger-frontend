@@ -99,6 +99,7 @@
 }
 
 .order-user-avatar {
+
   width: 40px;
   height: 40px;
   background: linear-gradient(135deg, #e63946, #b01524);
@@ -110,6 +111,36 @@
   font-size: 16px;
   color: #fff;
   box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #e63946, #b01524);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-user-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(230, 57, 70, 0.5);
+}
+
+/* Clickable Order ID */
+.order-id-clickable {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.order-id-clickable:hover {
+    color: #e63946;
+    text-decoration: underline;
+
 }
 
 /* Items List */
