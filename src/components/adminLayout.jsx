@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, Link } from "react-router-dom";
 import "../styles/admin.css";
 
 const AdminLayout = () => {
@@ -81,7 +81,7 @@ const AdminLayout = () => {
             </div>
 
             {/* Admin Profile */}
-            <div className="profile-btn">
+            <Link to="/admin/profile" className="profile-btn" style={{ textDecoration: 'none', color: 'inherit' }}>
 
               <img
                 src={`https://ui-avatars.com/api/?name=${encodeURIComponent(adminUser.name)}&background=e63946&color=fff`}
@@ -93,7 +93,7 @@ const AdminLayout = () => {
                 <span className="profile-role">Admin</span>
               </div>
 
-            </div>
+            </Link>
 
           </div>
 
