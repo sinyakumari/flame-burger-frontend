@@ -9,20 +9,33 @@ const MenuPage = () => {
   const { addToCart } = useCart();
 
   const [menuData, setMenuData] = useState([]);
+  const [customizableCategories, setCustomizableCategories] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
-    const fetchMenu = async () => {
+    const fetchMenuAndCustomizations = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/menu");
-        setMenuData(response.data);
+        const [menuRes, customRes] = await Promise.all([
+          axios.get("http://localhost:3000/api/menu"),
+          axios.get("http://localhost:3000/api/customization")
+        ]);
+        setMenuData(menuRes.data);
+        
+        // Find categories that have at least one active customization
+        const catTitlesWithCustoms = new Set();
+        customRes.data.forEach(c => {
+           if(c.category && c.category.title) {
+              catTitlesWithCustoms.add(c.category.title);
+           }
+        });
+        setCustomizableCategories(Array.from(catTitlesWithCustoms));
       } catch (error) {
-        console.error("Error fetching menu:", error);
+        console.error("Error fetching menu/customizations:", error);
       }
     };
 
-    fetchMenu();
+    fetchMenuAndCustomizations();
   }, []);
 
   const groupedMenu = menuData.reduce((acc, item) => {
@@ -44,12 +57,6 @@ const MenuPage = () => {
   }, {});
 
   const handleItemClick = async (item, categoryTitle) => {
-    const customizableCategories = [
-      "Signature Burgers",
-      "Sides & Fries",
-      "Momos",
-    ];
-
     if (customizableCategories.includes(categoryTitle)) {
       setSelectedItem(item);
       setSelectedCategory(categoryTitle);
@@ -91,6 +98,7 @@ const MenuPage = () => {
               title: categoryTitle,
               items: groupedMenu[categoryTitle],
             }}
+            customizableCategories={customizableCategories}
             onItemClick={(item) =>
               handleItemClick(item, categoryTitle)
             }

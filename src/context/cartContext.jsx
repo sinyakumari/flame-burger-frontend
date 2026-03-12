@@ -62,6 +62,13 @@ export const CartProvider = ({ children }) => {
   =================================== */
   const addToCart = async (product) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please login to add items to your cart!");
+        window.location.href = "/login";
+        return;
+      }
+
       if (!product?._id) {
         console.error("Product _id missing");
         return;

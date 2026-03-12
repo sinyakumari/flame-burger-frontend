@@ -4,6 +4,137 @@ import axios from "axios";
 import { useAuth } from "../context/authContext";
 import "../styles/admin.css";
 
+/* ── sub-component: Customization Drawer ──────── */
+const CustomizationDrawer = ({ category, onClose }) => {
+  const [customs, setCustoms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [newName, setNewName] = useState("");
+  const [newPrice, setNewPrice] = useState("");
+
+  useEffect(() => {
+    if (category) fetchCustoms();
+  }, [category]);
+
+  const fetchCustoms = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`http://localhost:3000/api/customization/${encodeURIComponent(category.title)}`);
+      setCustoms(res.data);
+    } catch (err) {
+      console.error("Error fetching customizations:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    if (!newName || !newPrice) return alert("Name and price required");
+    try {
+      await axios.post("http://localhost:3000/api/customization/add", {
+        name: newName,
+        price: parseFloat(newPrice),
+        categoryTitle: category.title
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      setNewName("");
+      setNewPrice("");
+      fetchCustoms();
+    } catch (err) {
+      console.error("Error adding customization:", err);
+    }
+  };
+
+  const handleToggle = async (c) => {
+    try {
+      await axios.put(`http://localhost:3000/api/customization/${c._id}`, 
+        { ...c, isActive: !c.isActive },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
+      fetchCustoms();
+    } catch (err) {
+      console.error("Error toggling customization:", err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this customization option?")) return;
+    try {
+      await axios.delete(`http://localhost:3000/api/customization/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      fetchCustoms();
+    } catch (err) {
+      console.error("Error deleting customization:", err);
+    }
+  };
+
+  if (!category) return null;
+
+  return (
+    <>
+      <div className="mid-overlay" onClick={onClose} style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000}} />
+      <aside className="mid-panel" style={{position: 'fixed', top: 0, right: 0, width: '400px', height: '100vh', background: '#111', zIndex: 1001, boxShadow: '-5px 0 15px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column'}}>
+        <header className="mid-header" style={{padding: '24px', borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div>
+            <h3 style={{color: '#ff2e2e', margin: 0, fontSize: '20px'}}>Customizations</h3>
+            <p style={{color: '#888', margin: '4px 0 0 0', fontSize: '13px'}}>{category.title}</p>
+          </div>
+          <button onClick={onClose} style={{background: 'transparent', border: 'none', color: '#fff', fontSize: '20px', cursor: 'pointer'}}>✕</button>
+        </header>
+
+        <div className="mid-body" style={{flexGrow: 1, overflowY: 'auto', padding: '24px'}}>
+          {/* Add Form */}
+          <div style={{background: '#0a0a0a', padding: '15px', borderRadius: '12px', border: '1px solid #222', marginBottom: '24px'}}>
+            <h4 style={{color: '#fff', fontSize: '14px', marginBottom: '15px'}}>Add New Option</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+              <input 
+                placeholder="Option Name (e.g. Extra Cheese)" 
+                value={newName} 
+                onChange={e => setNewName(e.target.value)}
+                style={{background: '#111', border: '1px solid #333', color: '#fff', padding: '10px', borderRadius: '8px', outline: 'none', fontSize: '13px'}}
+              />
+              <div style={{display: 'flex', gap: '10px'}}>
+                <input 
+                  type="number" 
+                  placeholder="Price" 
+                  value={newPrice} 
+                  onChange={e => setNewPrice(e.target.value)}
+                  style={{flex: 1, background: '#111', border: '1px solid #333', color: '#fff', padding: '10px', borderRadius: '8px', outline: 'none', fontSize: '13px'}}
+                />
+                <button onClick={handleAdd} style={{background: '#ff2e2e', color: '#fff', border: 'none', padding: '0 20px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer'}}>Add</button>
+              </div>
+            </div>
+          </div>
+
+          {/* List */}
+          <h4 style={{color: '#fff', fontSize: '14px', marginBottom: '15px'}}>Current Options</h4>
+          {loading ? <p style={{color: '#666'}}>Loading...</p> : customs.length === 0 ? <p style={{color: '#666'}}>No options added yet.</p> : (
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+              {customs.map(c => (
+                <div key={c._id} style={{background: '#1a1a1a', padding: '15px', borderRadius: '12px', border: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <div>
+                    <p style={{color: '#fff', margin: 0, fontSize: '14px', fontWeight: '500', opacity: c.isActive ? 1 : 0.5}}>{c.name}</p>
+                    <p style={{color: '#ff2e2e', margin: '4px 0 0 0', fontSize: '13px', fontWeight: 'bold'}}>₹{c.price}</p>
+                  </div>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                    <label className="switch" style={{margin: 0, transform: 'scale(0.7)'}}>
+                      <input type="checkbox" checked={c.isActive !== false} onChange={() => handleToggle(c)} />
+                      <span className="slider" style={{borderRadius: '34px'}}></span>
+                    </label>
+                    <button onClick={() => handleDelete(c._id)} style={{background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', fontSize: '14px'}} title="Delete">🗑</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
+  );
+};
+
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -24,6 +155,7 @@ export default function AdminCategoriesPage() {
   const [filterStatus, setFilterStatus] = useState("All");
   const [viewMode, setViewMode] = useState("grid"); // "grid" or "table"
   const [sortBy, setSortBy] = useState("Most Items");
+  const [selectedCatForCustom, setSelectedCatForCustom] = useState(null);
 
   const navigate = useNavigate();
   const { token } = useAuth();
@@ -411,6 +543,9 @@ export default function AdminCategoriesPage() {
                   <button onClick={() => handleDelete(cat._id)} style={{background: 'rgba(255, 46, 46, 0.1)', color: '#ff2e2e', border: '1px solid rgba(255, 46, 46, 0.2)', padding: '8px 15px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', transition: '0.2s', fontWeight: '500'}} onMouseOver={(e) => e.target.style.background='rgba(255, 46, 46, 0.2)'} onMouseOut={(e) => e.target.style.background='rgba(255, 46, 46, 0.1)'}>
                     Delete
                   </button>
+                  <button onClick={() => setSelectedCatForCustom(cat)} style={{background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', border: '1px solid rgba(59, 130, 246, 0.2)', padding: '8px 15px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', transition: '0.2s', fontWeight: '500'}} onMouseOver={(e) => e.target.style.background='rgba(59, 130, 246, 0.2)'} onMouseOut={(e) => e.target.style.background='rgba(59, 130, 246, 0.1)'}>
+                    Customization
+                  </button>
                 </div>
               </div>
             );
@@ -452,6 +587,7 @@ export default function AdminCategoriesPage() {
                     <td style={{padding: '15px 20px', textAlign: 'right'}}>
                       <button onClick={() => startEdit(cat)} style={{background: '#222', color: '#fff', border: '1px solid #333', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', marginRight: '8px', transition: '0.2s'}}>Edit</button>
                       <button onClick={() => handleDelete(cat._id)} style={{background: 'rgba(255, 46, 46, 0.1)', color: '#ff2e2e', border: '1px solid rgba(255, 46, 46, 0.2)', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', transition: '0.2s'}}>Delete</button>
+                      <button onClick={() => setSelectedCatForCustom(cat)} style={{background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', border: '1px solid rgba(59, 130, 246, 0.2)', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', marginLeft: '8px', transition: '0.2s'}}>Customization</button>
                     </td>
                   </tr>
                 );
@@ -460,6 +596,14 @@ export default function AdminCategoriesPage() {
           </table>
           {filteredCategories.length === 0 && <div style={{padding: '50px', textAlign: 'center', color: '#888'}}>No categories found matching your filters.</div>}
         </div>
+      )}
+
+      {/* CUSTOMIZATION DRAWER */}
+      {selectedCatForCustom && (
+        <CustomizationDrawer 
+          category={selectedCatForCustom} 
+          onClose={() => setSelectedCatForCustom(null)} 
+        />
       )}
     </div>
   );
