@@ -1,12 +1,6 @@
 import React from "react";
 
-const ItemCard = ({ item, onAddClick, categoryTitle }) => {
-  const customizableCategories = [
-    "Signature Burgers",
-    "Sides & Fries",
-    "Momos",
-  ];
-
+const ItemCard = ({ item, onAddClick, categoryTitle, customizableCategories = [] }) => {
   const isCustomizable =
     customizableCategories.includes(categoryTitle);
 
@@ -19,10 +13,19 @@ const ItemCard = ({ item, onAddClick, categoryTitle }) => {
     onAddClick(item);
   };
 
+  const resolveImg = (src) => {
+    if (!src) return null;
+    if (src.startsWith("http") || src.startsWith("data:")) return src;
+    if (src.startsWith("/assets/") || src.startsWith("/uploads")) {
+      return `http://localhost:3000${src}`;
+    }
+    return src;
+  };
+
   return (
     <div className="menu-item-card h-100">
       <div className="item-image">
-        <img src={item.img} alt={item.name} />
+        <img src={resolveImg(item.img)} alt={item.name} />
       </div>
 
       <div className="item-details d-flex flex-column">
@@ -33,15 +36,17 @@ const ItemCard = ({ item, onAddClick, categoryTitle }) => {
 
         <p className="item-desc">{item.desc}</p>
 
-        <button
-          type="button"
-          className="add-btn mt-auto"
-          onClick={handleClick}
-        >
-          {isCustomizable
-            ? "Customize & Add"
-            : "Add to Cart"}
-        </button>
+        <div className="mt-auto">
+          <button
+            type="button"
+            className="add-btn w-100"
+            onClick={handleClick}
+          >
+            {isCustomizable
+              ? "Customize & Add"
+              : "Add to Cart"}
+          </button>
+        </div>
       </div>
     </div>
   );

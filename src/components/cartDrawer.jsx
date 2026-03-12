@@ -101,7 +101,7 @@ const CartDrawer = () => {
                         className="qty-btn"
                         onClick={() =>
                           addToCart({
-                            menuItemId: item.menuItem,
+                            _id: item.menuItem,
                             name: item.name,
                             img: item.img,
                             price: item.price,

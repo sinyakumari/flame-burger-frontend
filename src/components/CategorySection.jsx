@@ -1,7 +1,7 @@
 import React from "react";
 import ItemCard from "./ItemCard";
 
-const CategorySection = ({ category, onItemClick }) => {
+const CategorySection = ({ category, onItemClick, customizableCategories }) => {
   return (
     <section className="menu-section">
       <h2 className="category-title">{category.title}</h2>
@@ -12,6 +12,7 @@ const CategorySection = ({ category, onItemClick }) => {
             <ItemCard
               item={item}
               categoryTitle={category.title}
+              customizableCategories={customizableCategories}
               onAddClick={(clickedItem) =>
                 onItemClick(clickedItem)
               }

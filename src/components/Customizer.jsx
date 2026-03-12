@@ -25,7 +25,9 @@ const MasterCustomizer = ({ item, category, onClose, onConfirm }) => {
         return res.json();
       })
       .then((data) => {
-        setToppingOptions(data);
+        // Only show active options
+        const activeOptions = data.filter(opt => opt.isActive !== false);
+        setToppingOptions(activeOptions);
         setLoading(false);
       })
       .catch((err) => {
